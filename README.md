@@ -1,0 +1,2 @@
+# lexis
+Synesthesia Discord Bot
