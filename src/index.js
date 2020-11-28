@@ -3,8 +3,8 @@ require('dotenv').config()
 
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix } = require(`${__dirname}/config.json`);
-const { connect } = require(`${__dirname}/connect.js`);
+const { prefix } = require('../config.json');
+const { connect, enableSudo } = require(`${__dirname}/connect.js`);
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -39,8 +39,10 @@ client.on('message', message => {
 async function main() {
 	// Connect through Polkadot.JS and place into global scope.
 	global.api = await connect();
+	// Set up the sudo account
+	global.sudoPair = enableSudo();
 	// Login to discord
-	client.login(process.env.TOKEN);
+	client.login(process.env.DISCORD_TOKEN);
 }
 
 main();

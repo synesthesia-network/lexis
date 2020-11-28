@@ -1,0 +1,4 @@
+{
+	"prefix": "!",
+	"endpoint": "ws://localhost:9944"
+}
