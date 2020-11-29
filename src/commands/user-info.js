@@ -1,14 +1,18 @@
-const { getAccount } = require("../utils/get-account");
+const { toSynUser } = require("../utils/user");
 
 module.exports = {
 	name: 'user-info',
 	aliases: ['me', 'user', 'info'],
 	description: 'Display info about a user.',
-	execute(message) {
+	usage: '[user (optional)]',
+	execute(message, args) {
+		let input = args.shift() || message.author.id;
+		let user = toSynUser(input);
+
 		let reply = [];
-		reply.push(`Your username: ${message.author.username}`);
-		reply.push(`Your ID: ${message.author.id}`);
-		reply.push(`Your Synesthesia Address: ${getAccount(message.author.id)}`)
+		reply.push(`Username: ${user.user ? user.user.username : "Unknown"}`);
+		reply.push(`ID: ${user.id || "Unknown"}`);
+		reply.push(`Synesthesia Address: ${user.address}`);
 		message.channel.send(reply.join('\n'));
 	},
 };

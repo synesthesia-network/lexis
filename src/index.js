@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const { prefix, defaultCooldown } = require('../config.js');
 const { connect, enableSudo } = require(`${__dirname}/connect.js`);
 
-const client = new Discord.Client();
+global.client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldowns = new Discord.Collection();
 
