@@ -1,7 +1,13 @@
+const { getAccount } = require("../utils/get-account");
+
 module.exports = {
 	name: 'user-info',
-	description: 'Display info about yourself.',
+	description: 'Display info about a user.',
 	execute(message) {
-		message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
+		let reply = [];
+		reply.push(`Your username: ${message.author.username}`);
+		reply.push(`Your ID: ${message.author.id}`);
+		reply.push(`Your Synesthesia Address: ${getAccount(message.author.id)}`)
+		message.channel.send(reply.join('\n'));
 	},
 };

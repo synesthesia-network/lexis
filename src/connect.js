@@ -1,5 +1,5 @@
-const { endpoint } = require('../config.json');
-const types = require('../types.json')
+const { endpoint } = require('../config.js');
+const types = require('../types.js')
 
 const { ApiPromise, WsProvider, Keyring } = require('@polkadot/api');
 

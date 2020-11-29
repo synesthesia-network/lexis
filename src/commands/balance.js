@@ -3,12 +3,11 @@ const { checkApi } = require("../connect");
 module.exports = {
 	name: 'balance',
 	description: 'Get the balance of a user.',
+	args: 1,
+	usage: '[address]',
 	async execute(message, args) {
 		if (checkApi(message)) {
 			let account = args.shift();
-			if (!account) {
-				account = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY";
-			}
 
 			try {
 				let balance = await api.derive.balances.account(account);

@@ -4,6 +4,8 @@ const { getAccount } = require("../utils/get-account");
 module.exports = {
 	name: 'transfer',
 	description: 'Make a balance transfer.',
+	args: 2,
+	usage: '[address] [amount]',
 	async execute(message, args) {
 		if (checkApi(message)) {
 			let to = args.shift();
