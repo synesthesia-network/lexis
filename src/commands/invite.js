@@ -22,7 +22,7 @@ module.exports = {
 					.sudo(
 						api.tx.invite.createAccount(user.id)
 					)
-					.signAndSend(sudoPair, (result) => {
+					.signAndSend(sudoPair, { nonce: -1 }, (result) => {
 						if (result.status.isInBlock) {
 							message.channel.send(`Invited User: ${user.address}`);
 							unsub();

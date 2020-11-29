@@ -31,7 +31,7 @@ module.exports = {
 						from,
 						api.tx.balances.transfer(to_user.address, amount)
 					)
-					.signAndSend(sudoPair, (result) => {
+					.signAndSend(sudoPair, { nonce: -1 }, (result) => {
 						if (result.status.isInBlock) {
 							message.react('✅');
 							unsub();
