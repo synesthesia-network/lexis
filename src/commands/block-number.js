@@ -2,6 +2,7 @@ const { checkApi } = require("../connect");
 
 module.exports = {
 	name: 'block-number',
+	aliases: ['block', 'number'],
 	description: 'Get the latest block number.',
 	async execute(message) {
 		if (checkApi(message)) {

@@ -2,6 +2,7 @@ const { getAccount } = require("../utils/get-account");
 
 module.exports = {
 	name: 'user-info',
+	aliases: ['me', 'user', 'info'],
 	description: 'Display info about a user.',
 	execute(message) {
 		let reply = [];
