@@ -11,8 +11,8 @@ module.exports = {
 
 		let reply = [];
 		reply.push(`Username: ${user.user ? user.user.username : "Unknown"}`);
-		reply.push(`ID: ${user.id || "Unknown"}`);
-		reply.push(`Synesthesia Address: ${user.address}`);
+		reply.push(`Discord: ${user.id || "Unknown"}`);
+		reply.push(`Address: ${user.address}`);
 		message.channel.send(reply.join('\n'));
 	},
 };
