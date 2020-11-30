@@ -4,7 +4,6 @@ const { toSynUser } = require("../utils/user");
 module.exports = {
 	name: 'balance',
 	description: 'Get the balance of a user.',
-	args: 1,
 	usage: '[user (optional)]',
 	async execute(message, args) {
 		if (checkApi(message)) {

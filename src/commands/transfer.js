@@ -31,9 +31,22 @@ module.exports = {
 						from,
 						api.tx.balances.transfer(to_user.address, amount)
 					)
-					.signAndSend(sudoPair, { nonce: -1 }, (result) => {
-						if (result.status.isInBlock) {
-							message.react('✅');
+					.signAndSend(sudoPair, { nonce: -1 }, ({ status, events }) => {
+						if (status.isInBlock) {
+							events
+								// We know this tx should result in `SudoAsDone` event.
+								.filter(({ event: { section, method } }) =>
+									section === 'sudo' &&
+									method === 'SudoAsDone'
+								)
+								// We know `SudoAsDone` returns just a `result`
+								.forEach(({ event: { data: [result] } }) => {
+									if (result.isFalse) {
+										message.react('❌');
+									} else if (result.isTrue) {
+										message.react('✅');
+									}
+								});
 							unsub();
 						}
 					});

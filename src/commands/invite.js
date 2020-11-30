@@ -22,9 +22,35 @@ module.exports = {
 					.sudo(
 						api.tx.invite.createAccount(user.id)
 					)
-					.signAndSend(sudoPair, { nonce: -1 }, (result) => {
-						if (result.status.isInBlock) {
-							message.channel.send(`Invited User: ${user.address}`);
+					.signAndSend(sudoPair, { nonce: -1 }, ({ status, events }) => {
+						if (status.isInBlock) {
+							events
+								// We know this tx should result in `Sudid` event.
+								.filter(({ event: { section, method } }) =>
+									section === 'sudo' &&
+									method === 'Sudid'
+								)
+								// We know that `Sudid` returns just a `result`
+								.forEach(({ event : { data: [result] } }) => {
+									if (result.isError) {
+										let error = result.asError;
+										if (error.isModule) {
+											// Module Error Information
+											const decoded = api.registry.findMetaError(error.asModule);
+											const { documentation, name, section } = decoded;
+
+											message.react('❌');
+											message.channel.send(`Module Error: ${section}.${name}: ${documentation.join(' ')}`);
+										} else {
+											// Other, CannotLookup, BadOrigin, no extra info
+											message.react('❌');
+											message.channel.send(`Dispatch Error: ${error.toString()}`);
+										}
+									} else if (result.isOk) {
+										message.react('✅');
+										message.channel.send(`Invited User: ${user.address}`);
+									}
+								});
 							unsub();
 						}
 					 });
