@@ -39,11 +39,23 @@ module.exports = {
 									section === 'sudo' &&
 									method === 'SudoAsDone'
 								)
-								// We know `SudoAsDone` returns just a `result`
+								// We know that `SudoAsDone` returns just a `result`
 								.forEach(({ event: { data: [result] } }) => {
-									if (result.isFalse) {
-										message.react('❌');
-									} else if (result.isTrue) {
+									if (result.isError) {
+										let error = result.asError;
+										if (error.isModule) {
+											// Module Error Information
+											const decoded = api.registry.findMetaError(error.asModule);
+											const { documentation, name, section } = decoded;
+
+											message.react('❌');
+											message.channel.send(`Module Error: ${section}.${name}: ${documentation.join(' ')}`);
+										} else {
+											// Other, CannotLookup, BadOrigin, no extra info
+											message.react('❌');
+											message.channel.send(`Dispatch Error: ${error.toString()}`);
+										}
+									} else if (result.isOk) {
 										message.react('✅');
 									}
 								});
